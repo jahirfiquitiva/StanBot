@@ -204,13 +204,26 @@ class SimpleSlackBot:
 
         return user_ids
 
-    def helper_channel_name_to_channel_id(self, name):
-        """Helpfer function that converts a channel name to its respected channel id
+    def helper_public_channel_name_to_channel_id(self, name):
+        """Helper function that converts a channel name to its respected channel id
         """
 
         channels_list = self._slacker.channels.list().body["channels"]
 
         for channel in channels_list["channels"]:
+            if channel["name"] == name:
+                logger.debug(f"converted {channel['name']} to {channel['id']}")
+                return channel["id"]
+
+        logger.warning(f"could not convert channel name {name} to an id")
+
+    def helper_private_channel_name_to_channel_id(self, name):
+        """Helper function that converts a channel name to its respected channel id
+        """
+        channels_list = self._slacker.groups.list().body["groups"]
+        logger.info(str(channels_list))
+
+        for channel in channels_list["groups"]:
             if channel["name"] == name:
                 logger.debug(f"converted {channel['name']} to {channel['id']}")
                 return channel["id"]

@@ -42,7 +42,7 @@ def pong_callback(request):
             print("Time stamp: " + str(request.timestamp))
             ft = datetime.datetime.fromtimestamp(request.timestamp).strftime('%Y-%m-%d %H:%M:%S')
             print("Formatted time: " + ft)
-            print("Frames channel id: " + stan.helper_channel_name_to_channel_id("frames"))
+            print("Frames channel id: " + stan.helper_private_channel_name_to_channel_id("frames"))
             sc.api_call(
                 "chat.postMessage",
                 channel="#standup",
