@@ -11,6 +11,7 @@ class Replies:
             return True
         self.replies.append(message)
         mm = 2 if simple else 3
+        print("Current replies: " + str(self.count()))
         if self.count() > mm:
             self.replies = []
             self.active = False
