@@ -65,14 +65,7 @@ def pong_callback(request):
         channel_message = sc.api_call(
             "chat.postMessage",
             channel="#general",
-            text="A message in this channel"
-        )
-
-        normal_thread_message = sc.api_call(
-            "chat.postMessage",
-            channel="#general",
-            thread_ts=channel_message['message']['ts'],
-            text="A message on a thread, but not broadcasted"
+            text="Let's start the stand-up"
         )
 
         broadcasted_thread_message = sc.api_call(
