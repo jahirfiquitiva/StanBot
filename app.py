@@ -40,8 +40,9 @@ def pong_callback(request):
                 text="Your stand-up is finished :smile:")
             stan.get_slacker().chat.post_message(
                 "#standup",
-                "Here's " + stan.helper_user_id_to_user_name(request.user) + "'s report:",
-                attachments=reps.get_as_attachment())
+                "Here's *" + info["user"].get("real_name") + "*'s report:",
+                attachments=reps.get_as_attachment(),
+                mrkdwn=True)
             reps.activate(False)
     if request.message.lower() == "stan sim":
         reps.activate()
