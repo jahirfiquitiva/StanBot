@@ -6,6 +6,13 @@ from slackclient import SlackClient
 stan = SimpleSlackBot(debug=True)
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
 
+key = -1
+stand = []
+messages = [
+    "What will you do today?"
+    "Anything blocking you?"
+]
+
 
 @stan.register("message")
 def pong_callback(request):
@@ -14,9 +21,19 @@ def pong_callback(request):
     :param request: the SlackRequest we receive along with the event. See the README.md for full documentation
     :return: None
     """
-    if request.message.lower() == "ping":
-        request.write("Pong")
-    if request.message.lower() == "stan-up!":
+    if 0 <= key <= 2:
+        stand[key] = request.message
+        global key
+        request.write(messages[key])
+        if key < 2:
+            key += 1
+        else:
+            key = -1
+    if request.message.lower() == "/stand-up-simple":
+        request.write("Let's start your stand up :smile:\nWhat did you do yesterday?")
+        global key
+        key = 0
+    if request.message.lower() == "stannn":
         att = [
             {
                 "text": "What kind of stand-up do you want to do?",
