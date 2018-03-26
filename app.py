@@ -62,12 +62,25 @@ def pong_callback(request):
             text="Hello from Python! :tada:"
         )
     if request.message.lower() == "thread":
-        sc.api_call(
+        channel_message = sc.api_call(
             "chat.postMessage",
-            channel=request.channel,
-            text="Thread from Python! :tada:",
-            thread_ts=str(time.time()),
-            reply_broadcast=True
+            channel="#general",
+            text="A message in this channel"
+        )
+
+        normal_thread_message = sc.api_call(
+            "chat.postMessage",
+            channel="#general",
+            thread_ts=channel_message['message']['ts'],
+            text="A message on a thread, but not broadcasted"
+        )
+
+        broadcasted_thread_message = sc.api_call(
+            "chat.postMessage",
+            channel="#general",
+            thread_ts=channel_message['message']['ts'],
+            reply_broadcast=True,
+            text="A message on a thread, broadcasted to channel. *BUG*, Check my username!"
         )
 
 
