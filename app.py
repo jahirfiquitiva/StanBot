@@ -1,4 +1,5 @@
 import os
+import time
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 from slackclient import SlackClient
 
@@ -65,7 +66,7 @@ def pong_callback(request):
             "chat.postMessage",
             channel=request.channel,
             text="Thread from Python! :tada:",
-            thread_ts="1476746830.000003",
+            thread_ts=str(time.time()),
             reply_broadcast=True
         )
 
