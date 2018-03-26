@@ -28,11 +28,11 @@ def pong_callback(request):
     """
     if reps.active and len(request.message) > 0:
         reps.reply(request.message)
-        request.write(simple_mess[reps.count])
+        request.write(simple_mess[reps.count()])
     if request.message.lower() == "stan sim":
         reps.activate()
         request.write("Let's start your stand up :smile:")
-        request.write(simple_mess[reps.count])
+        request.write(simple_mess[reps.count()])
     if request.message.lower() == "stannn":
         att = [
             {
