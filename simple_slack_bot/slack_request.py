@@ -77,7 +77,7 @@ class SlackRequest(object):
         """
         ts = 0
         if "ts" in self._slack_event.event:
-            return self._slack_event.event["ts"]
+            return int(self._slack_event.event["ts"])
         return ts
 
     def write(self, content, channel=None):
