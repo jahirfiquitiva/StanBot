@@ -69,6 +69,17 @@ class SlackRequest(object):
 
         return user
 
+    @property
+    def timestamp(self):
+        """ Gets the timestamp from the SlackEvent
+
+        :return: the timestamp this SlackEvent cam with
+        """
+        ts = 0
+        if "ts" in self._slack_event.event:
+            return self._slack_event.event["ts"]
+        return ts
+
     def write(self, content, channel=None):
         """
         Writes the content to the channel

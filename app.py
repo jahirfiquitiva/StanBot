@@ -1,10 +1,10 @@
 import os
 import replies
-import json
+import datetime
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 from slackclient import SlackClient
 
-stan = SimpleSlackBot(debug=True)
+stan = SimpleSlackBot()
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
 reps = replies.Replies()
 
@@ -39,6 +39,9 @@ def pong_callback(request):
                 "chat.postMessage",
                 channel=request.channel,
                 text="Your stand-up is finished :smile:")
+            print("Time stamp: " + request.timestamp)
+            ft = datetime.datetime.fromtimestamp(request.timestamp).strftime('%Y-%m-%d %H:%M:%S')
+            print("Formated time: " + ft)
             sc.api_call(
                 "chat.postMessage",
                 channel="#standup",
