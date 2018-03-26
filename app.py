@@ -1,5 +1,6 @@
 import os
 import replies
+import json
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 from slackclient import SlackClient
 
@@ -33,14 +34,12 @@ def pong_callback(request):
                 request.channel,
                 text=detail_mess[reps.count()])
         else:
-            info = stan.get_slacker().users.info(request.user)
-            print(str(info))
             stan.get_slacker().chat.post_message(
                 request.channel,
                 text="Your stand-up is finished :smile:")
             stan.get_slacker().chat.post_message(
                 "#standup",
-                "Here's *" + info["user"].get("real_name") + "*'s report:",
+                "Here's *" + request.helper_user_id_to_user_real_name(request.user) + "*'s report:",
                 attachments=reps.get_as_attachment(),
                 mrkdwn=True)
             reps.activate(False)

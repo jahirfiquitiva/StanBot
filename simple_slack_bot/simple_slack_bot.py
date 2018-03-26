@@ -38,7 +38,8 @@ class SimpleSlackBot:
             logger.addHandler(StreamHandler())
             logger.setLevel(logging.DEBUG)
 
-        logger.info(f"set bot id to {self._BOT_ID} with name {self.helper_user_id_to_user_name(self._BOT_ID)}")
+        logger.info(
+            f"set bot id to {self._BOT_ID} with name {self.helper_user_id_to_user_name(self._BOT_ID)}")
         logger.info("initialized")
 
     def register(self, event_type):
@@ -59,7 +60,8 @@ class SimpleSlackBot:
         """Routes the request to the correct notify
         """
 
-        logger.info(f"received an event of type {request.type} and slack event {request._slack_event.event}")
+        logger.info(
+            f"received an event of type {request.type} and slack event {request._slack_event.event}")
 
         if request.type in self._registrations:
             for callback in self._registrations[request.type]:
@@ -94,8 +96,9 @@ class SimpleSlackBot:
             logger.info("started!")
             self.listen()
         else:
-            logger.error("Connection failed. Are you connected to the internet? Potentially invalid Slack token? "
-                               "Check environment variable and \"SLACK_BOT_TOKEN\"")
+            logger.error(
+                "Connection failed. Are you connected to the internet? Potentially invalid Slack token? "
+                "Check environment variable and \"SLACK_BOT_TOKEN\"")
 
     def get_slacker(self):
         """Returns SimpleSlackBot's SlackClient.
@@ -250,5 +253,18 @@ class SimpleSlackBot:
             if user["id"] == user_id:
                 logger.debug(f"converted {user_id} to {user['name']}")
                 return user["name"]
+
+        logger.warning(f"could not convert user id {user_id} to a name")
+
+    def helper_user_id_to_user_real_name(self, user_id):
+        """Helper function that converts a user id to its respected user name
+        """
+
+        users_list = self._slacker.users.list()
+
+        for user in users_list.body["members"]:
+            if user["id"] == user_id:
+                logger.debug(f"converted {user_id} to {user['real_name']}")
+                return user["real_name"]
 
         logger.warning(f"could not convert user id {user_id} to a name")
