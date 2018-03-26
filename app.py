@@ -40,23 +40,15 @@ def pong_callback(request):
                 channel=request.channel,
                 text="Your stand-up is finished :smile:")
 
-            print("Time stamp: " + str(request.timestamp))
-            ft = datetime.datetime.fromtimestamp(request.timestamp).strftime('%Y-%m-%d %H:%M:%S')
-            print("Formatted time: " + ft)
-
             offset = stan.helper_user_id_to_tz_offset(request.user)
-            print("User tz offset: " + str(offset))
             ft = datetime.datetime.fromtimestamp(request.timestamp + offset).strftime(
                 '%Y-%m-%d %H:%M:%S')
-            print("New formatted time: " + ft)
-
-            print(str(stan.helper_get_private_channel_ids()))
-            ## print("Frames channel id: " + stan.helper_private_channel_name_to_channel_id("frames"))
+            
             sc.api_call(
                 "chat.postMessage",
-                channel="#standup",
+                channel="frames",
                 text="Here's *" + stan.helper_user_id_to_user_real_name(
-                    request.user) + "*'s report:",
+                    request.user) + "*'s report at *" + ft + "*:",
                 attachments=reps.get_as_attachment(),
                 mrkdwn=True
             )
