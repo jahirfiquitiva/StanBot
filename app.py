@@ -39,7 +39,7 @@ def pong_callback(request):
                 text="Your stand-up is finished :smile:")
             stan.get_slacker().chat.post_message(
                 "#standup",
-                "Here's *" + request.helper_user_id_to_user_real_name(request.user) + "*'s report:",
+                "Here's *" + stan.helper_user_id_to_user_real_name(request.user) + "*'s report:",
                 attachments=reps.get_as_attachment(),
                 mrkdwn=True)
             reps.activate(False)
