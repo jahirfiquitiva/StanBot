@@ -37,6 +37,14 @@ def pong_callback(request):
             stan.get_slacker().chat.post_message(
                 request.channel,
                 text="Your stand-up is finished :smile:")
+            sc.api_call(
+                "chat.postMessage",
+                channel="#standup",
+                text="Here's *" + stan.helper_user_id_to_user_real_name(
+                    request.user) + "*'s report:",
+                attachments=reps.get_as_attachment(),
+                mrkdwn=True
+            )
             stan.get_slacker().chat.post_message(
                 "#standup",
                 "Here's *" + stan.helper_user_id_to_user_real_name(request.user) + "*'s report:",
