@@ -1,18 +1,18 @@
 class Replies:
     def __init__(self):
-        self.count = 0
         self.replies = []
         self.active = False
+
+    def count(self):
+        return len(self.replies)
 
     def reply(self, message, simple=False):
         if not self.active:
             return True
-        self.replies[self.count] = message
-        self.count += 1
+        self.replies.append(message)
         max = 2 if simple else 3
-        if self.count > max:
+        if self.count() > max:
             self.replies = []
-            self.count = 0
             self.active = False
             return True
         return False
