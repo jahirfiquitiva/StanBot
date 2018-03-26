@@ -30,12 +30,14 @@ def pong_callback(request):
     if reps.active and len(request.message) > 0:
         reps.reply(request.message)
         if reps.count() < 3:
-            stan.get_slacker().chat.post_message(
-                request.channel,
+            sc.api_call(
+                "chat.postMessage",
+                channel=request.channel,
                 text=detail_mess[reps.count()])
         else:
-            stan.get_slacker().chat.post_message(
-                request.channel,
+            sc.api_call(
+                "chat.postMessage",
+                channel=request.channel,
                 text="Your stand-up is finished :smile:")
             sc.api_call(
                 "chat.postMessage",
@@ -45,20 +47,13 @@ def pong_callback(request):
                 attachments=reps.get_as_attachment(),
                 mrkdwn=True
             )
-            stan.get_slacker().chat.post_message(
-                "#standup",
-                "Here's *" + stan.helper_user_id_to_user_real_name(request.user) + "*'s report:",
-                attachments=reps.get_as_attachment(),
-                mrkdwn=True)
             reps.activate(False)
     if request.message.lower() == "stan sim":
         reps.activate()
-        stan.get_slacker().chat.post_message(
-            request.channel,
-            text="Let's start your stand up! :thinking_face:")
-        stan.get_slacker().chat.post_message(
-            request.channel,
-            text=detail_mess[reps.count()])
+        sc.api_call(
+            "chat.postMessage",
+            channel=request.channel,
+            text="Let's start your stand up! :thinking_face:\n" + detail_mess[reps.count()])
     if request.message.lower() == "stannn":
         att = [
             {
