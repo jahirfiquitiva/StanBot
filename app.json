@@ -1,0 +1,11 @@
+{
+  "name": "Stan bot",
+  "description": "A simple bot for Slack with multiple functions",
+  "repository": "https://github.com/jahirfiquitiva/StanBot",
+  "keywords": ["bot", "python", "slack"],
+  "env": {
+    "SLACK_TOKEN": {
+      "description": "The token for your bot from Bots application(https://slack.com/apps/A0F7YS25R-bots)."
+    }
+  }
+}
