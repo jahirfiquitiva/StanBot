@@ -26,7 +26,7 @@ def pong_callback(request):
     :param request: the SlackRequest we receive along with the event. See the README.md for full documentation
     :return: None
     """
-    if reps.active:
+    if reps.active and len(request.message) > 0:
         reps.reply(request.message)
         request.write(simple_mess[reps.count])
     if request.message.lower() == "stan sim":
