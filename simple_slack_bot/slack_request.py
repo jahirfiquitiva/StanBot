@@ -75,9 +75,9 @@ class SlackRequest(object):
 
         :return: the timestamp this SlackEvent cam with
         """
-        ts = 0
+        ts = 0.0
         if "ts" in self._slack_event.event:
-            return int(self._slack_event.event["ts"])
+            return float(self._slack_event.event["ts"])
         return ts
 
     def write(self, content, channel=None):
