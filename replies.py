@@ -18,5 +18,5 @@ class Replies:
             return True
         return False
 
-    def activate(self):
-        self.active = True
+    def activate(self, active=True):
+        self.active = active

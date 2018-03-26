@@ -28,8 +28,10 @@ def pong_callback(request):
     """
     if reps.active and len(request.message) > 0:
         reps.reply(request.message)
-        request.write(detail_mess[reps.count()])
-        if not reps.active:
+        if reps.count() < 3:
+            request.write(detail_mess[reps.count()])
+        else:
+            reps.activate(False)
             sc.api_call(
                 "chat.postMessage",
                 channel="#standup",
