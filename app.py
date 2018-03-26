@@ -1,6 +1,8 @@
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
+from slackclient import SlackClient
 
 stan = SimpleSlackBot(debug=True)
+sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
 
 
 @stan.register("message")
@@ -51,6 +53,12 @@ def pong_callback(request):
         stan.get_slacker().chat.post_message(request.channel,
                                              "Let's start with your stand-up! :smile:",
                                              attachments=att)
+    if request.message.lower() == "client":
+        sc.api_call(
+            "chat.postMessage",
+            channel=request.channel,
+            text="Hello from Python! :tada:"
+        )
 
 
 def main():

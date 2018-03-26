@@ -8,6 +8,7 @@ simple-slack-bot==1.1.0
 six==1.11.0
 slacker==0.9.65
 slacksocket==0.9.1
+slackclient==1.2.0
 stevedore==1.28.0
 urllib3==1.22
 virtualenv==15.1.0
