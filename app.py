@@ -31,9 +31,10 @@ def pong_callback(request):
         if reps.count() < 3:
             request.write(detail_mess[reps.count()])
         else:
-            stan.get_slacker().chat.post_message("#standup",
-                                                 "Here's " + request.channel + "'s report:",
-                                                 attachments=reps.get_as_attachment())
+            stan.get_slacker().chat.post_message(
+                "#standup",
+                "Here's " + stan.helper_get_user_names() + "'s report:",
+                attachments=reps.get_as_attachment())
             reps.activate(False)
     if request.message.lower() == "stan sim":
         reps.activate()
