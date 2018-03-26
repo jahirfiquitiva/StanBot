@@ -10,8 +10,8 @@ class Replies:
         if not self.active:
             return True
         self.replies.append(message)
-        max = 2 if simple else 3
-        if self.count() > max:
+        mm = 2 if simple else 3
+        if self.count() > mm:
             self.replies = []
             self.active = False
             return True
