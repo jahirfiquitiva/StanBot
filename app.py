@@ -1,16 +1,21 @@
 import os
-import time
+import replies
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 from slackclient import SlackClient
 
 stan = SimpleSlackBot(debug=True)
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
+reps = replies.Replies()
 
-key = -1
-stand = []
-messages = [
-    "What will you do today?"
-    "Anything blocking you?"
+simple_mess = [
+    "What did you do today?",
+    "Is something blocking you?"
+]
+
+detail_mess = [
+    "What did you do yesterday?",
+    "What are you going to do today?",
+    "Is something blocking you?"
 ]
 
 
@@ -21,18 +26,13 @@ def pong_callback(request):
     :param request: the SlackRequest we receive along with the event. See the README.md for full documentation
     :return: None
     """
-    if 0 <= key <= 2:
-        stand[key] = request.message
-        global key
-        request.write(messages[key])
-        if key < 2:
-            key += 1
-        else:
-            key = -1
+    if reps.active:
+        reps.reply(request.message)
+        request.write(simple_mess[reps.count])
     if request.message.lower() == "/stand-up-simple":
-        request.write("Let's start your stand up :smile:\nWhat did you do yesterday?")
-        global key
-        key = 0
+        reps.activate()
+        request.write("Let's start your stand up :smile:")
+        request.write(simple_mess[reps.count])
     if request.message.lower() == "stannn":
         att = [
             {
