@@ -29,7 +29,7 @@ def pong_callback(request):
     if reps.active:
         reps.reply(request.message)
         request.write(simple_mess[reps.count])
-    if request.message.lower() == "/stand-up-simple":
+    if request.message.lower() == "stan sim":
         reps.activate()
         request.write("Let's start your stand up :smile:")
         request.write(simple_mess[reps.count])
