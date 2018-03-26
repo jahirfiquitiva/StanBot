@@ -9,3 +9,11 @@ Stan replies to these "commands":
 `stan min`:
 Starts a minimal stand-up. For reports at the end of the day, basically.
 The questions are:
+* What did you do today?
+* Is something blocking you?
+
+`stan full`:
+Starts a full stand-up. For reports at the beginning of the day, basically.
+* What did you do yesterday?
+* What are you going to do today?
+* Is something blocking you?

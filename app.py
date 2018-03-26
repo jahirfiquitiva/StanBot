@@ -7,7 +7,7 @@ from slackclient import SlackClient
 # Put # before name if it's a public channel. Make sure your bot is a channel member
 REPORTS_CHANNEL = "frames"
 
-# This is the link of the repo where the bot code is available
+# This is the link of the repo where the bot code is available (Make sure it doesn't end with "/" )
 BOT_REPO_URL = "https://github.com/jahirfiquitiva/StanBot"
 
 stan = SimpleSlackBot()
@@ -66,7 +66,7 @@ def callback(request):
                     {
                         "type": "button",
                         "text": "Report on GitHub",
-                        "url": BOT_REPO_URL,
+                        "url": BOT_REPO_URL + "/issues/new",
                         "style": "primary"
                     }
                 ]
