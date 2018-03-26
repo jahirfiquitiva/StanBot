@@ -83,6 +83,14 @@ def pong_callback(request):
             trigger_id="my.trigger",
             dialog=dail
         )
+    if request.message.lower() == "thread":
+        sc.api_call(
+            "chat.postMessage",
+            channel=request.channel,
+            text="Thread from Python! :tada:",
+            thread_ts="1476746830.000003",
+            reply_broadcast=True
+        )
 
 
 def main():
