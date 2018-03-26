@@ -13,7 +13,11 @@ def pong_callback(request):
     if request.message.lower() == "ping":
         request.write("Pong")
     if request.message.lower() == "mes":
-        stan.get_slacker().chat.post_message(request.channel, "hola")
+        atcs = pairs = [("name", "btna"), ("text", "button 1")]
+        att = pairs = [("text", "new text"), ("actions", atcs)]
+        stan.get_slacker().chat.post_message(request.channel,
+                                             "hola",
+                                             attachments=att)
 
 
 def main():
