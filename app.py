@@ -33,6 +33,8 @@ def pong_callback(request):
                 request.channel,
                 text=detail_mess[reps.count()])
         else:
+            info = stan.get_slacker().users.info(request.user)
+            print(str(info))
             stan.get_slacker().chat.post_message(
                 request.channel,
                 text="Your stand-up is finished :smile:")
