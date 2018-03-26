@@ -1,3 +1,4 @@
+import os
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 from slackclient import SlackClient
 
