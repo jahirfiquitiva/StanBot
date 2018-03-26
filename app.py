@@ -1,9 +1,9 @@
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 
-simple_slack_bot = SimpleSlackBot(debug=True)
+stan = SimpleSlackBot(debug=True)
 
 
-@simple_slack_bot.register("message")
+@stan.register("message")
 def pong_callback(request):
     """This function is called every time a message is sent to a channel out Bot is in
 
@@ -12,10 +12,12 @@ def pong_callback(request):
     """
     if request.message.lower() == "ping":
         request.write("Pong")
+    if request.message.lower() == "mes":
+        stan.get_slacker().chat.post_message(request.channel, "hola")
 
 
 def main():
-    simple_slack_bot.start()
+    stan.start()
 
 
 if __name__ == "__main__":
