@@ -1,5 +1,11 @@
-# Ping-Pong-Bot
+# Stan Bot
 
-Ping-Pong-Bot was created to act as an example of how easy it is to create a bot using the open source [Simple-Slack-Bot library](https://greghilston.github.io/Simple-Slack-Bot/).
+Stan Bot is a simple (really simple) bot that listens to user messages and replies with question to complete a simple SCRUM stand up.
 
-Ping-Pong-Bot will look at every message sent to the channels that it is in, waiting for the case insensitive message "Ping". Once received, Ping-Pong-Bot will write back to the very same channel "Pong".
+This bot uses the [Simple-Slack-Bot library](https://github.com/GregHilston/Simple-Slack-Bot) and also the official [Python Slack Client](https://github.com/slackapi/python-slackclient)
+
+Stan replies to these "commands":
+
+`stan min`:
+Starts a minimal stand-up. For reports at the end of the day, basically.
+The questions are:

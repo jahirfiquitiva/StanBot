@@ -4,6 +4,12 @@ import datetime
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 from slackclient import SlackClient
 
+# Put # before name if it's a public channel. Make sure your bot is a channel member
+REPORTS_CHANNEL = "frames"
+
+# This is the link of the repo where the bot code is available
+BOT_REPO_URL = "https://github.com/jahirfiquitiva/StanBot"
+
 stan = SimpleSlackBot()
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
 reps = replies.Replies()
@@ -21,19 +27,15 @@ detail_mess = [
 
 
 @stan.register("message")
-def pong_callback(request):
-    """This function is called every time a message is sent to a channel out Bot is in
-
-    :param request: the SlackRequest we receive along with the event. See the README.md for full documentation
-    :return: None
-    """
+def callback(request):
     if reps.active and len(request.message) > 0:
         reps.reply(request.message)
-        if reps.count() < 3:
+        mm = 2 if reps.simple else 3
+        if reps.count() < mm:
             sc.api_call(
                 "chat.postMessage",
                 channel=request.channel,
-                text=detail_mess[reps.count()])
+                text=simple_mess[reps.count()] if reps.simple else detail_mess[reps.count()])
         else:
             sc.api_call(
                 "chat.postMessage",
@@ -43,81 +45,47 @@ def pong_callback(request):
             offset = stan.helper_user_id_to_tz_offset(request.user)
             ft = datetime.datetime.fromtimestamp(request.timestamp + offset).strftime(
                 '%Y-%m-%d %H:%M:%S')
-            
+
             sc.api_call(
                 "chat.postMessage",
-                channel="frames",
+                channel=REPORTS_CHANNEL,
                 text="Here's *" + stan.helper_user_id_to_user_real_name(
                     request.user) + "*'s report at *" + ft + "*:",
                 attachments=reps.get_as_attachment(),
                 mrkdwn=True
             )
-            reps.activate(False)
-    if request.message.lower() == "stan sim":
-        reps.activate()
-        sc.api_call(
-            "chat.postMessage",
-            channel=request.channel,
-            text="Let's start your stand up! :thinking_face:\n" + detail_mess[reps.count()])
-    if request.message.lower() == "stannn":
-        att = [
+            reps.deactivate()
+    elif request.message.lower() == "stan min":
+        start_stan(True, request.channel)
+    elif request.message.lower() == "stan full":
+        start_stan(False, request.channel)
+    else:
+        button = [
             {
-                "text": "What kind of stand-up do you want to do?",
-                "fallback": "You are unable to do a stand-up",
-                "callback_id": "stan-standup",
-                "color": "#4b7bec",
-                "attachment_type": "default",
                 "actions": [
                     {
-                        "name": "opt",
-                        "text": "Simple",
                         "type": "button",
-                        "value": "simple"
-                    },
-                    {
-                        "name": "opt",
-                        "text": "Complete",
-                        "type": "button",
-                        "value": "complete"
-                    },
-                    {
-                        "name": "opt",
-                        "text": "Cancel",
-                        "style": "danger",
-                        "type": "button",
-                        "value": "cancel",
-                        "confirm": {
-                            "title": "Are you sure?",
-                            "text": "Won't you report anything?",
-                            "ok_text": "No",
-                            "dismiss_text": "Cancel"
-                        }
+                        "text": "Report on GitHub",
+                        "url": BOT_REPO_URL,
+                        "style": "primary"
                     }
                 ]
-            }]
-        stan.get_slacker().chat.post_message(request.channel,
-                                             "Let's start with your stand-up! :smile:",
-                                             attachments=att)
-    if request.message.lower() == "client":
+            }
+        ]
         sc.api_call(
             "chat.postMessage",
             channel=request.channel,
-            text="Hello from Python! :tada:"
-        )
-    if request.message.lower() == "thread":
-        channel_message = sc.api_call(
-            "chat.postMessage",
-            channel="#general",
-            text="Let's start the stand-up"
-        )
+            text="Sorry, I'm not that smart yet :disappointed:",
+            attachments=button)
 
-        broadcasted_thread_message = sc.api_call(
-            "chat.postMessage",
-            channel="#general",
-            thread_ts=channel_message['message']['ts'],
-            reply_broadcast=True,
-            text="A message on a thread, broadcasted to channel. *BUG*, Check my username!"
-        )
+
+def start_stan(simple, chan):
+    reps.activate(simple)
+    message = simple_mess[reps.count()] if simple else detail_mess[reps.count()]
+    sc.api_call(
+        "chat.postMessage",
+        channel=chan,
+        text="Let's start your stand up! :thinking_face:\n" + message)
 
 
 def main():
