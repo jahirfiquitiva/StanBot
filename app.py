@@ -6,13 +6,16 @@ from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 from slackclient import SlackClient
 
 # Put # before name if it's a public channel. Make sure your bot is a channel member
-REPORTS_CHANNEL = "stantest"
+# You must define REPORTS_CHANNEL key in Heroku
+REPORTS_CHANNEL = os.environ.get("REPORTS_CHANNEL")
 
 # This is the link of the repo where the bot code is available (Make sure it doesn't end with "/" )
-BOT_REPO_URL = "https://github.com/jahirfiquitiva/StanBot"
+# You must define BOT_REPO key in Heroku
+BOT_REPO_URL = os.environ.get("BOT_REPO")
 
 # Bot name and username
-BOT_NAME = "stan-bot"
+# You must define BOT_NAME key in Heroku
+BOT_NAME = os.environ.get("BOT_NAME")
 
 stan = SimpleSlackBot()
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
