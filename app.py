@@ -34,8 +34,10 @@ def mentions(request):
 @stan.register("message")
 def callback(request):
     print("Received message: " + request.message)
-    info = sc.api_call("bots.info")
+    info = sc.api_call("bots.info", bot="U9WPE3P2B")
     print("Bot info: --> " + str(info))
+    other = sc.api_call("users.info", user="U9WPE3P2B")
+    print("User info: --> " + str(other))
     if request.message.lower() == "stan stop":
         if len(reps.channel) > 0 or reps.active:
             sc.api_call(
