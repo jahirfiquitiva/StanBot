@@ -40,7 +40,9 @@ def mentions(request):
 @stan.register("message")
 def callback(request):
     print("Received message in channel: " + request.channel)
-    
+    chanchan = stan.helper_channel_id_to_channel_name(request.channel)
+    print("Received message in channel with name: " + chanchan)
+
     try:
         mention = re.search('<@(.+?)>', request.message).group(1)
     except Exception:
