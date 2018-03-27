@@ -39,37 +39,6 @@ def mentions(request):
 @stan.register("message")
 def callback(request):
     try:
-        channel_name = stan.get_slacker().channels.info(request.channel).body["channel"]["name"]
-        print("Received message in channel: " + channel_name)
-        if channel_name.lower() == REPORTS_CHANNEL.lower():
-            sc.api_call(
-                "chat.postMessage",
-                channel=request.channel,
-                text="I'm not allowed to work here. :confused: DM me :smile:",
-                as_user=True)
-            return
-        elif channel_name.lower() == REPORTS_CHANNEL[1:].lower():
-            sc.api_call(
-                "chat.postMessage",
-                channel=request.channel,
-                text="I'm not allowed to work here. :confused: DM me :smile:",
-                as_user=True)
-            return
-    except Exception:
-        try:
-            channel_name = stan.get_slacker().groups.info(request.channel).body["group"]["name"]
-            print("Received message in group: " + channel_name)
-            if channel_name.lower() == REPORTS_CHANNEL.lower():
-                sc.api_call(
-                    "chat.postMessage",
-                    channel=request.channel,
-                    text="I'm not allowed to work here. :confused: DM me :smile:",
-                    as_user=True)
-                return
-        except Exception:
-            pass
-
-    try:
         mention = re.search('<@(.+?)>', request.message).group(1)
     except Exception:
         mention = ""
@@ -150,8 +119,38 @@ def callback(request):
             start_stan(True, request.channel)
         elif message == "stan full" or (is_mentioned and "full" in message):
             start_stan(False, request.channel)
-        elif message.startswith("stan") or message.startswith(
-                "@stan") or request.message.startswith("<@" + mention + ">"):
+        elif message.startswith("stan ") or message.startswith(
+                "@stan ") or request.message.startswith("<@" + mention + "> "):
+            try:
+                channel_name = stan.get_slacker().channels.info(request.channel).body["channel"]["name"]
+                print("Received message in channel: " + channel_name)
+                if channel_name.lower() == REPORTS_CHANNEL.lower():
+                    sc.api_call(
+                        "chat.postMessage",
+                        channel=request.channel,
+                        text="I'm not allowed to work here. :confused: DM me :smile:",
+                        as_user=True)
+                    return
+                elif channel_name.lower() == REPORTS_CHANNEL[1:].lower():
+                    sc.api_call(
+                        "chat.postMessage",
+                        channel=request.channel,
+                        text="I'm not allowed to work here. :confused: DM me :smile:",
+                        as_user=True)
+                    return
+            except Exception:
+                try:
+                    channel_name = stan.get_slacker().groups.info(request.channel).body["group"]["name"]
+                    print("Received message in group: " + channel_name)
+                    if channel_name.lower() == REPORTS_CHANNEL.lower():
+                        sc.api_call(
+                            "chat.postMessage",
+                            channel=request.channel,
+                            text="I'm not allowed to work here. :confused: DM me :smile:",
+                            as_user=True)
+                        return
+                except Exception:
+                    pass
             button = [{
                 "text": "Please try using `stan min` or `stan full`",
                 "fallback": "Please try using `stan min` or `stan full`",
