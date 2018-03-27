@@ -74,9 +74,8 @@ def callback(request):
                             request.user) + "*'s report from *" + ft + "* (" +
                              stan.helper_user_id_to_tz_label(request.user) + "):",
                         attachments=reps.get_as_attachment(),
-                        mrkdwn=,
-                        as_user=True
-                    )
+                        mrkdwn=True,
+                        as_user=True)
                     reps.deactivate()
             else:
                 extra = [{
