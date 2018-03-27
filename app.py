@@ -44,11 +44,17 @@ def callback(request):
     except Exception:
         mention = ''
 
-    print(mention + " was mentioned")
-    mention_info = stan.get_slacker().users.info(mention).body["user"]["name"]
-    print("User info: --> " + str(mention_info))
+    is_mentioned = False
+    if len(mention) > 0:
+        body = stan.get_slacker().users.info(mention).body["user"]
+        name = body["name"]
+        real_name = body["real_name"]
+        if name == BOT_NAME or name == BOT_USER_NAME or real_name == BOT_NAME or real_name == BOT_USER_NAME:
+            is_mentioned = True
 
-    if request.message.lower() == "stan stop":
+    message = request.message.lower()
+
+    if message == "stan stop" or (is_mentioned and "stop" in message):
         if len(reps.channel) > 0 or reps.active:
             sc.api_call(
                 "chat.postMessage",
@@ -110,12 +116,12 @@ def callback(request):
                     text="Stan does not seem to be active yet, or someone else is doing a report.",
                     attachments=extra,
                     as_user=True)
-        elif request.message.lower() == "stan min":
+        elif message == "stan min" or (is_mentioned and "min" in message):
             start_stan(True, request.channel)
-        elif request.message.lower() == "stan full":
+        elif message == "stan full" or (is_mentioned and "full" in message):
             start_stan(False, request.channel)
-        elif request.message.lower().startswith("stan") or request.message.lower().startswith(
-                "@stan"):
+        elif message.startswith("stan") or message.startswith(
+                "@stan") or request.message.startswith("<@" + mention + ">"):
             button = [{
                 "text": "Please try using `stan min` or `stan full`",
                 "fallback": "Please try using `stan min` or `stan full`",
