@@ -31,7 +31,7 @@ def mentions(request):
     callback(request)
 
 
-@stan.register("message")
+@stan.register("message.im")
 def callback(request):
     if request.message.lower() == "stan stop":
         if len(reps.channel) > 0 or reps.active:
