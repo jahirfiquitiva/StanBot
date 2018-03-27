@@ -40,7 +40,7 @@ def callback(request):
             sc.api_call(
                 "chat.postMessage",
                 channel=request.channel,
-                text="Your stand-up is finished :smile:")
+                text="Your stand-up has finished! :smile::raised_hands:")
 
             offset = stan.helper_user_id_to_tz_offset(request.user)
             ft = datetime.datetime.fromtimestamp(request.timestamp + offset).strftime(
@@ -61,23 +61,26 @@ def callback(request):
     elif request.message.lower() == "stan full":
         start_stan(False, request.channel)
     else:
-        button = [
-            {
-                "actions": [
-                    {
-                        "type": "button",
-                        "text": "Report on GitHub",
-                        "url": BOT_REPO_URL + "/issues/new",
-                        "style": "primary"
-                    }
-                ]
-            }
-        ]
+        button = [{
+            "text": "Please try using `stan min` or `stan full`",
+            "fallback": "Please try using `stan min` or `stan full`",
+            "mrkdwn": True,
+            "color": "#3AA3E3",
+            "actions": [
+                {
+                    "type": "button",
+                    "text": "Report on GitHub",
+                    "url": BOT_REPO_URL + "/issues/new",
+                    "style": "primary"
+                }
+            ]
+        }]
         sc.api_call(
             "chat.postMessage",
             channel=request.channel,
-            text="Sorry, I'm not that smart yet :disappointed:",
-            attachments=button)
+            text="Sorry, I'm not that smart yet :disappointed:.",
+            attachments=button,
+            mrkdwn=True)
 
 
 def start_stan(simple, chan):
@@ -86,7 +89,8 @@ def start_stan(simple, chan):
     sc.api_call(
         "chat.postMessage",
         channel=chan,
-        text="Let's start your stand up! :thinking_face:\n" + message)
+        text="*Let's start your stand-up!* :thinking_face:\n" + message,
+        mrkdwn=True)
 
 
 def main():
