@@ -45,8 +45,8 @@ def callback(request):
         mention = ''
 
     print(mention + " was mentioned")
-    mention_info = sc.api_call("users.info", user=mention)
-    print("User info: --> " + json.dumps(mention_info)["user"].get("name"))
+    mention_info = stan.get_slacker().users.info(mention)
+    print("User info: --> " + str(mention_info))
 
     if request.message.lower() == "stan stop":
         if len(reps.channel) > 0 or reps.active:
