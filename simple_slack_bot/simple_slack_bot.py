@@ -304,8 +304,8 @@ class SimpleSlackBot:
 
         for user in users_list.body["members"]:
             if user["id"] == user_id:
-                logger.debug(f"converted {user_id} to {user['tz_label']}")
-                return user["tz_label"]
+                logger.debug(f"converted {user_id} to {user['tz']}")
+                return user["tz"]
 
         logger.warning(f"could not get time zone from user id {user_id}")
         return "Unknown"
