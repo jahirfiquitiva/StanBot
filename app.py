@@ -70,8 +70,8 @@ def callback(request):
                     sc.api_call(
                         "chat.postMessage",
                         channel=REPORTS_CHANNEL,
-                        text="Here's *" + stan.helper_user_id_to_user_real_name(
-                            request.user) + "*'s report from *" + ft + "* (" +
+                        text=":nerd_face:\nHere's a new report from *" + stan.helper_user_id_to_user_real_name(
+                            request.user) + "* made at *" + ft + "* (" +
                              stan.helper_user_id_to_tz_label(request.user) + "):",
                         attachments=reps.get_as_attachment(),
                         mrkdwn=True,
@@ -94,7 +94,7 @@ def callback(request):
             start_stan(True, request.channel)
         elif request.message.lower() == "stan full":
             start_stan(False, request.channel)
-        else:
+        elif request.message.lower().startsWith("stan"):
             button = [{
                 "text": "Please try using `stan min` or `stan full`",
                 "fallback": "Please try using `stan min` or `stan full`",
