@@ -142,6 +142,7 @@ def start_stan(simple, chan):
 
 def main():
     stan.start()
+    print("Bot running now :D")
 
 
 if __name__ == "__main__":
