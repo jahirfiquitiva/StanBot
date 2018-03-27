@@ -43,7 +43,8 @@ def callback(request):
     try:
         channel_name = stan.get_slacker().channels.info(request.channel).body["channel"]["name"]
         print("Received message in channel: " + channel_name)
-        if channel_name.lower() == REPORTS_CHANNEL.lower():
+        if channel_name.lower() == REPORTS_CHANNEL.lower() or channel_name.lower()[
+                                                              1:] == REPORTS_CHANNEL.lower():
             return
     except Exception:
         try:
