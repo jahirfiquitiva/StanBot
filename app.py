@@ -33,6 +33,7 @@ def mentions(request):
 
 @stan.register("message.im")
 def callback(request):
+    print("Received message: " + request.message)
     if request.message.lower() == "stan stop":
         if len(reps.channel) > 0 or reps.active:
             sc.api_call(
