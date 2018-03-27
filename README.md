@@ -23,9 +23,17 @@ Starts a full stand-up. For reports at the beginning of the day, basically.
 ## Deployment on Heroku
 
 * Fork the project
-* Create a Heroku app
+* Create a [Heroku](https://dashboard.heroku.com/) app
 * Create a [Slack bot user](https://my.slack.com/apps/A0F7YS25R-bots) and get its API Token
 * Configure an environment variable on Heroku with key: `SLACK_BOT_TOKEN` and the bot API Token as its value.
 * Connect the app with the GitHub repository
 * On your app management page, configure the dyno and set it on.
 * Trigger deployment
+
+## Contribution
+
+This project is far from perfect and could have a lot of useful features. I am by no means an expert on bots creation: this is literally my first attempt
+
+I am open to any kind of contributions (pull-requests) that can help Stan grow and become more powerful :)
+
+Thanks in advance for them
