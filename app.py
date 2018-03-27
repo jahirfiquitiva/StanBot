@@ -33,7 +33,8 @@ def callback(request):
             sc.api_call(
                 "chat.postMessage",
                 channel=reps.channel,
-                text="Your stand-up has been stopped")
+                text="*Your stand-up has been stopped* :face_with_monocle:",
+                mrkdwn=True)
             reps.deactivate()
         else:
             sc.api_call(
@@ -55,7 +56,8 @@ def callback(request):
                     sc.api_call(
                         "chat.postMessage",
                         channel=request.channel,
-                        text="Thanks :smile: Your stand-up has finished! :raised_hands:")
+                        text="*Thanks* :smile: Your stand-up has finished! :raised_hands:",
+                        mrkdwn=True)
 
                     offset = stan.helper_user_id_to_tz_offset(request.user)
                     ft = datetime.datetime.fromtimestamp(request.timestamp + offset).strftime(
