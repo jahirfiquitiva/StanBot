@@ -96,7 +96,7 @@ def callback(request):
                     "type": "button",
                     "text": "Report on GitHub",
                     "url": BOT_REPO_URL + "/issues/new",
-                    "style": "primary"
+                    "style": "danger"
                 }
             ]
         }]
