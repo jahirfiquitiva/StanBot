@@ -1,4 +1,6 @@
 import os
+import re
+import json
 import replies
 import datetime
 from simple_slack_bot.simple_slack_bot import SimpleSlackBot
@@ -9,6 +11,10 @@ REPORTS_CHANNEL = "frames"
 
 # This is the link of the repo where the bot code is available (Make sure it doesn't end with "/" )
 BOT_REPO_URL = "https://github.com/jahirfiquitiva/StanBot"
+
+# Bot name and username
+BOT_NAME = "stan"
+BOT_USER_NAME = "stan"
 
 stan = SimpleSlackBot()
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
@@ -33,11 +39,15 @@ def mentions(request):
 
 @stan.register("message")
 def callback(request):
-    print("Received message: " + request.message)
-    info = sc.api_call("bots.info", bot="U9WPE3P2B")
-    print("Bot info: --> " + str(info))
-    other = sc.api_call("users.info", user="U9WPE3P2B")
-    print("User info: --> " + str(other))
+    try:
+        mention = re.search('<@(.+?)>', request.message).group(1)
+    except Exception:
+        mention = ''
+
+    print(mention + " was mentioned")
+    mention_info = sc.api_call("users.info", user=mention)
+    print("User info: --> " + json.dumps(mention_info)["user"].get("name"))
+
     if request.message.lower() == "stan stop":
         if len(reps.channel) > 0 or reps.active:
             sc.api_call(
