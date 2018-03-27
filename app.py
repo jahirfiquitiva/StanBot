@@ -12,8 +12,8 @@ REPORTS_CHANNEL = "#standup"
 BOT_REPO_URL = "https://github.com/jahirfiquitiva/StanBot"
 
 # Bot name and username
-BOT_NAME = "stan"
-BOT_USER_NAME = "stan"
+BOT_NAME = "stan-bot"
+BOT_USER_NAME = "stan-bot"
 
 stan = SimpleSlackBot()
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
