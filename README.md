@@ -1,6 +1,7 @@
 # Stan Bot
 
 Stan Bot is a simple (really simple) bot that listens to user messages and replies with question to complete a simple SCRUM stand up.
+(I'm not sure about the correct use of the term, this is what I understood about it. Sorry)
 
 This bot uses the [Simple-Slack-Bot library](https://github.com/GregHilston/Simple-Slack-Bot) and also the official [Python Slack Client](https://github.com/slackapi/python-slackclient)
 
