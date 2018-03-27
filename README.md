@@ -27,4 +27,5 @@ Starts a full stand-up. For reports at the beginning of the day, basically.
 * Create a [Slack bot user](https://my.slack.com/apps/A0F7YS25R-bots) and get its API Token
 * Configure an environment variable on Heroku with key: `SLACK_BOT_TOKEN` and the bot API Token as its value.
 * Connect the app with the GitHub repository
+* On your app management page, configure the dyno and set it on.
 * Trigger deployment
