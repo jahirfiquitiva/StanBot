@@ -13,7 +13,6 @@ BOT_REPO_URL = "https://github.com/jahirfiquitiva/StanBot"
 
 # Bot name and username
 BOT_NAME = "stan-bot"
-BOT_USER_NAME = "stan-bot"
 
 stan = SimpleSlackBot()
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
@@ -48,12 +47,12 @@ def callback(request):
         body = stan.get_slacker().users.info(mention).body["user"]
         name = body["name"]
         real_name = body["real_name"]
-        if name == BOT_NAME or name == BOT_USER_NAME or real_name == BOT_NAME or real_name == BOT_USER_NAME:
+        if name == BOT_NAME or real_name == BOT_NAME:
             is_mentioned = True
 
     message = request.message.lower()
 
-    if message == "stan stop" or (is_mentioned and "stop" in message):
+    if message == BOT_NAME + " stop" or (is_mentioned and "stop" in message):
         if len(reps.channel) > 0 or reps.active:
             sc.api_call(
                 "chat.postMessage",
@@ -104,8 +103,8 @@ def callback(request):
                     reps.deactivate()
             else:
                 extra = [{
-                    "text": "Please try using `stan min` or `stan full`. Or try again in a few minutes.",
-                    "fallback": "Please try using `stan min` or `stan full`.Or try again in a few minutes.",
+                    "text": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`. Or try again in a few minutes.",
+                    "fallback": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`.Or try again in a few minutes.",
                     "mrkdwn": True,
                     "color": "#3AA3E3"
                 }]
@@ -115,14 +114,15 @@ def callback(request):
                     text="Stan does not seem to be active yet, or someone else is doing a report.",
                     attachments=extra,
                     as_user=True)
-        elif message == "stan min" or (is_mentioned and "min" in message):
+        elif message == BOT_NAME + " min" or (is_mentioned and "min" in message):
             start_stan(True, request.channel)
-        elif message == "stan full" or (is_mentioned and "full" in message):
+        elif message == BOT_NAME + " full" or (is_mentioned and "full" in message):
             start_stan(False, request.channel)
-        elif message.startswith("stan ") or message.startswith(
-                "@stan ") or request.message.startswith("<@" + mention + "> "):
+        elif message.startswith(BOT_NAME + " ") or message.startswith(
+                "@" + BOT_NAME + " ") or is_mentioned:
             try:
-                channel_name = stan.get_slacker().channels.info(request.channel).body["channel"]["name"]
+                channel_name = stan.get_slacker().channels.info(request.channel).body["channel"][
+                    "name"]
                 print("Received message in channel: " + channel_name)
                 if channel_name.lower() == REPORTS_CHANNEL.lower():
                     sc.api_call(
@@ -140,7 +140,8 @@ def callback(request):
                     return
             except Exception:
                 try:
-                    channel_name = stan.get_slacker().groups.info(request.channel).body["group"]["name"]
+                    channel_name = stan.get_slacker().groups.info(request.channel).body["group"][
+                        "name"]
                     print("Received message in group: " + channel_name)
                     if channel_name.lower() == REPORTS_CHANNEL.lower():
                         sc.api_call(
@@ -152,8 +153,8 @@ def callback(request):
                 except Exception:
                     pass
             button = [{
-                "text": "Please try using `stan min` or `stan full`",
-                "fallback": "Please try using `stan min` or `stan full`",
+                "text": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
+                "fallback": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
                 "mrkdwn": True,
                 "color": "#3AA3E3",
                 "actions": [
