@@ -50,7 +50,8 @@ def callback(request):
                 "chat.postMessage",
                 channel=REPORTS_CHANNEL,
                 text="Here's *" + stan.helper_user_id_to_user_real_name(
-                    request.user) + "*'s report at *" + ft + "*:",
+                    request.user) + "*'s report from *" + ft + "* (" +
+                     stan.helper_user_id_to_tz_label(request.user) + "):",
                 attachments=reps.get_as_attachment(),
                 mrkdwn=True
             )

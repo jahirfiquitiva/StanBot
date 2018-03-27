@@ -295,3 +295,17 @@ class SimpleSlackBot:
 
         logger.warning(f"could not get time zone offset from user id {user_id}")
         return 0
+
+    def helper_user_id_to_tz_label(self, user_id):
+        """Helper function that converts a user id to its respected time zone
+        """
+
+        users_list = self._slacker.users.list()
+
+        for user in users_list.body["members"]:
+            if user["id"] == user_id:
+                logger.debug(f"converted {user_id} to {user['tz_label']}")
+                return user["tz_label"]
+
+        logger.warning(f"could not get time zone from user id {user_id}")
+        return "Unknown"
