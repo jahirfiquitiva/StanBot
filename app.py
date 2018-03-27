@@ -27,6 +27,7 @@ detail_mess = [
 
 
 @stan.register("message")
+@stan.register("app_mention")
 def callback(request):
     if request.message.lower() == "stan stop":
         if len(reps.channel) > 0 or reps.active:
@@ -94,7 +95,8 @@ def callback(request):
             start_stan(True, request.channel)
         elif request.message.lower() == "stan full":
             start_stan(False, request.channel)
-        elif request.message.lower().startswith("stan") or request.message.lower().startswith("@stan"):
+        elif request.message.lower().startswith("stan") or request.message.lower().startswith(
+                "@stan"):
             button = [{
                 "text": "Please try using `stan min` or `stan full`",
                 "fallback": "Please try using `stan min` or `stan full`",
