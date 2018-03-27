@@ -40,10 +40,19 @@ def mentions(request):
 @stan.register("message")
 def callback(request):
     print("Received message in channel: " + request.channel)
-    channel_name = stan.get_slacker().channels.info(request.channel).body["channel"]["name"]
-    print("Received message in channel: " + channel_name)
-    if channel_name.lower() == REPORTS_CHANNEL.lower():
-        return
+    try:
+        channel_name = stan.get_slacker().channels.info(request.channel).body["channel"]["name"]
+        print("Received message in channel: " + channel_name)
+        if channel_name.lower() == REPORTS_CHANNEL.lower():
+            return
+    except Exception:
+        try:
+            channel_name = stan.get_slacker().groups.info(request.channel).body["group"]["name"]
+            print("Received message in group: " + channel_name)
+            if channel_name.lower() == REPORTS_CHANNEL.lower():
+                return
+        except Exception:
+            pass
 
     try:
         mention = re.search('<@(.+?)>', request.message).group(1)
