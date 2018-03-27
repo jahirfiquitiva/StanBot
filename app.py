@@ -34,13 +34,15 @@ def callback(request):
                 "chat.postMessage",
                 channel=reps.channel,
                 text="*Your stand-up has been stopped* :face_with_monocle:",
-                mrkdwn=True)
+                mrkdwn=True,
+                as_user=True)
             reps.deactivate()
         else:
             sc.api_call(
                 "chat.postMessage",
                 channel=request.channel,
-                text="No stand-up is currently in execution :smile:")
+                text="No stand-up is currently in execution :smile:",
+                as_user=True)
     else:
         if reps.active and len(request.message) > 0:
             valid = reps.reply(request.channel, request.message)
@@ -51,13 +53,15 @@ def callback(request):
                         "chat.postMessage",
                         channel=request.channel,
                         text=simple_mess[reps.count()] if reps.simple else detail_mess[
-                            reps.count()])
+                            reps.count()],
+                        as_user=True)
                 else:
                     sc.api_call(
                         "chat.postMessage",
                         channel=request.channel,
                         text="*Thanks* :smile: Your stand-up has finished! :raised_hands:",
-                        mrkdwn=True)
+                        mrkdwn=True,
+                        as_user=True)
 
                     offset = stan.helper_user_id_to_tz_offset(request.user)
                     ft = datetime.datetime.fromtimestamp(request.timestamp + offset).strftime(
@@ -70,7 +74,8 @@ def callback(request):
                             request.user) + "*'s report from *" + ft + "* (" +
                              stan.helper_user_id_to_tz_label(request.user) + "):",
                         attachments=reps.get_as_attachment(),
-                        mrkdwn=True
+                        mrkdwn=,
+                        as_user=True
                     )
                     reps.deactivate()
             else:
@@ -84,7 +89,8 @@ def callback(request):
                     "chat.postMessage",
                     channel=request.channel,
                     text="Stan does not seem to be active yet, or someone else is doing a report.",
-                    attachments=extra)
+                    attachments=extra,
+                    as_user=True)
         elif request.message.lower() == "stan min":
             start_stan(True, request.channel)
         elif request.message.lower() == "stan full":
@@ -109,7 +115,8 @@ def callback(request):
                 channel=request.channel,
                 text="Sorry, I'm not that smart yet :disappointed:.",
                 attachments=button,
-                mrkdwn=True)
+                mrkdwn=True,
+                as_user=True)
 
 
 def start_stan(simple, chan):
@@ -119,7 +126,8 @@ def start_stan(simple, chan):
         "chat.postMessage",
         channel=chan,
         text="*Let's start your stand-up!* :thinking_face:\n" + message,
-        mrkdwn=True)
+        mrkdwn=True,
+        as_user=True)
 
 
 def main():
