@@ -40,7 +40,7 @@ def callback(request):
             sc.api_call(
                 "chat.postMessage",
                 channel=request.channel,
-                text="Your stand-up has finished! :smile::raised_hands:")
+                text="Thanks :smile: Your stand-up has finished! :raised_hands:")
 
             offset = stan.helper_user_id_to_tz_offset(request.user)
             ft = datetime.datetime.fromtimestamp(request.timestamp + offset).strftime(
