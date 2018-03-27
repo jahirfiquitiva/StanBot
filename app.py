@@ -31,7 +31,7 @@ def mentions(request):
     callback(request)
 
 
-@stan.register("message.im")
+@stan.register("message")
 def callback(request):
     print("Received message: " + request.message)
     info = sc.api_call("bots.info")
