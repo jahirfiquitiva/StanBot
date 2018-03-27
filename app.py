@@ -6,7 +6,7 @@ from simple_slack_bot.simple_slack_bot import SimpleSlackBot
 from slackclient import SlackClient
 
 # Put # before name if it's a public channel. Make sure your bot is a channel member
-REPORTS_CHANNEL = "#standup"
+REPORTS_CHANNEL = "stantest"
 
 # This is the link of the repo where the bot code is available (Make sure it doesn't end with "/" )
 BOT_REPO_URL = "https://github.com/jahirfiquitiva/StanBot"
