@@ -57,10 +57,34 @@ def callback(request):
                     mrkdwn=True
                 )
                 reps.deactivate()
+        else:
+            extra = [{
+                "text": "Please try using `stan min` or `stan full`. Or try again in a few minutes.",
+                "fallback": "Please try using `stan min` or `stan full`.Or try again in a few minutes.",
+                "mrkdwn": True,
+                "color": "#3AA3E3"
+            }]
+            sc.api_call(
+                "chat.postMessage",
+                channel=request.channel,
+                text="Stan does not seem to be active yet, or someone else is doing a report.",
+                attachments=extra)
     elif request.message.lower() == "stan min":
         start_stan(True, request.channel)
     elif request.message.lower() == "stan full":
         start_stan(False, request.channel)
+    elif request.message.lower() == "stan stop":
+        if len(reps.channel) > 0:
+            sc.api_call(
+                "chat.postMessage",
+                channel=reps.channel,
+                text="Your stand-up has been stopped")
+            reps.deactivate()
+        else:
+            sc.api_call(
+                "chat.postMessage",
+                channel=request.channel,
+                text="No stand-up is currently in execution :smile:")
     else:
         button = [{
             "text": "Please try using `stan min` or `stan full`",

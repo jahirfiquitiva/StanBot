@@ -21,6 +21,9 @@ Starts a full stand-up. For reports at the beginning of the day, basically.
 * What are you going to do today?
 * Are there any obstacles impeding your progress?
 
+`stan stop`:
+Stops a stand-up.
+
 ## Deployment on Heroku
 
 * Fork the project
