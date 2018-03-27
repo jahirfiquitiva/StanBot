@@ -39,6 +39,8 @@ def mentions(request):
 
 @stan.register("message")
 def callback(request):
+    print("Received message in channel: " + request.channel)
+    
     try:
         mention = re.search('<@(.+?)>', request.message).group(1)
     except Exception:
