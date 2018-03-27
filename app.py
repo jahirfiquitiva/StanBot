@@ -10,7 +10,7 @@ REPORTS_CHANNEL = "frames"
 # This is the link of the repo where the bot code is available (Make sure it doesn't end with "/" )
 BOT_REPO_URL = "https://github.com/jahirfiquitiva/StanBot"
 
-stan = SimpleSlackBot()
+stan = SimpleSlackBot(debug=True)
 sc = SlackClient(os.environ.get("SLACK_BOT_TOKEN"))
 reps = replies.Replies()
 
