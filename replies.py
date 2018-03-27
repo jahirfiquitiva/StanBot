@@ -3,12 +3,17 @@ class Replies:
         self.replies = []
         self.active = False
         self.simple = False
+        self.channel = ""
 
     def count(self):
         return len(self.replies)
 
-    def reply(self, message):
+    def reply(self, channel, message):
         if not self.active:
+            return False
+        if len(self.channel) <= 0:
+            return False
+        if channel != self.channel:
             return False
         mm = 2 if self.simple else 3
         if len(self.replies) >= mm:
@@ -16,15 +21,17 @@ class Replies:
         self.replies.append(message)
         return True
 
-    def activate(self, simple=False):
+    def activate(self, channel, simple=False):
         self.replies = []
         self.simple = simple
         self.active = True
+        self.channel = channel
 
     def deactivate(self):
         self.replies = []
         self.active = False
         self.simple = False
+        self.channel = ""
 
     def get_as_attachment(self):
         return [

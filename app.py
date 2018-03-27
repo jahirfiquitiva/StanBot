@@ -29,33 +29,34 @@ detail_mess = [
 @stan.register("message")
 def callback(request):
     if reps.active and len(request.message) > 0:
-        reps.reply(request.message)
-        mm = 2 if reps.simple else 3
-        if reps.count() < mm:
-            sc.api_call(
-                "chat.postMessage",
-                channel=request.channel,
-                text=simple_mess[reps.count()] if reps.simple else detail_mess[reps.count()])
-        else:
-            sc.api_call(
-                "chat.postMessage",
-                channel=request.channel,
-                text="Thanks :smile: Your stand-up has finished! :raised_hands:")
+        valid = reps.reply(request.channel, request.message)
+        if valid:
+            mm = 2 if reps.simple else 3
+            if reps.count() < mm:
+                sc.api_call(
+                    "chat.postMessage",
+                    channel=request.channel,
+                    text=simple_mess[reps.count()] if reps.simple else detail_mess[reps.count()])
+            else:
+                sc.api_call(
+                    "chat.postMessage",
+                    channel=request.channel,
+                    text="Thanks :smile: Your stand-up has finished! :raised_hands:")
 
-            offset = stan.helper_user_id_to_tz_offset(request.user)
-            ft = datetime.datetime.fromtimestamp(request.timestamp + offset).strftime(
-                '%Y-%m-%d %H:%M:%S')
+                offset = stan.helper_user_id_to_tz_offset(request.user)
+                ft = datetime.datetime.fromtimestamp(request.timestamp + offset).strftime(
+                    '%Y-%m-%d %H:%M:%S')
 
-            sc.api_call(
-                "chat.postMessage",
-                channel=REPORTS_CHANNEL,
-                text="Here's *" + stan.helper_user_id_to_user_real_name(
-                    request.user) + "*'s report from *" + ft + "* (" +
-                     stan.helper_user_id_to_tz_label(request.user) + "):",
-                attachments=reps.get_as_attachment(),
-                mrkdwn=True
-            )
-            reps.deactivate()
+                sc.api_call(
+                    "chat.postMessage",
+                    channel=REPORTS_CHANNEL,
+                    text="Here's *" + stan.helper_user_id_to_user_real_name(
+                        request.user) + "*'s report from *" + ft + "* (" +
+                         stan.helper_user_id_to_tz_label(request.user) + "):",
+                    attachments=reps.get_as_attachment(),
+                    mrkdwn=True
+                )
+                reps.deactivate()
     elif request.message.lower() == "stan min":
         start_stan(True, request.channel)
     elif request.message.lower() == "stan full":
@@ -84,7 +85,7 @@ def callback(request):
 
 
 def start_stan(simple, chan):
-    reps.activate(simple)
+    reps.activate(chan, simple)
     message = simple_mess[reps.count()] if simple else detail_mess[reps.count()]
     sc.api_call(
         "chat.postMessage",
