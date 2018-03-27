@@ -16,13 +16,13 @@ reps = replies.Replies()
 
 simple_mess = [
     "What did you do today?",
-    "Is something blocking you?"
+    "Are there any obstacles impeding your progress?"
 ]
 
 detail_mess = [
     "What did you do yesterday?",
     "What are you going to do today?",
-    "Is something blocking you?"
+    "Are there any obstacles impeding your progress?"
 ]
 
 
