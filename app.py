@@ -45,7 +45,7 @@ def callback(request):
         mention = ''
 
     print(mention + " was mentioned")
-    mention_info = stan.get_slacker().users.info(mention)
+    mention_info = stan.get_slacker().users.info(mention).body["user"]
     print("User info: --> " + str(mention_info))
 
     if request.message.lower() == "stan stop":
