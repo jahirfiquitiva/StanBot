@@ -42,7 +42,7 @@ class Replies:
                 "attachment_type": "default"
             },
             {
-                "title": "What's blocking you?",
+                "title": "Are there any obstacles impeding your progress?",
                 "text": self.replies[1],
                 "color": "#eb3b5a",
                 "attachment_type": "default"
@@ -61,7 +61,7 @@ class Replies:
                 "attachment_type": "default"
             },
             {
-                "title": "What's blocking you?",
+                "title": "Are there any obstacles impeding your progress?",
                 "text": self.replies[2],
                 "color": "#eb3b5a",
                 "attachment_type": "default"
