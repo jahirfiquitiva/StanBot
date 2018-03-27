@@ -38,18 +38,33 @@ def mentions(request):
 
 @stan.register("message")
 def callback(request):
-    print("Received message in channel: " + request.channel)
     try:
         channel_name = stan.get_slacker().channels.info(request.channel).body["channel"]["name"]
         print("Received message in channel: " + channel_name)
-        if channel_name.lower() == REPORTS_CHANNEL.lower() or channel_name.lower()[
-                                                              1:] == REPORTS_CHANNEL.lower():
+        if channel_name.lower() == REPORTS_CHANNEL.lower():
+            sc.api_call(
+                "chat.postMessage",
+                channel=request.channel,
+                text="I'm not allowed to work here. :confused: DM me :smile:",
+                as_user=True)
+            return
+        elif channel_name.lower() == REPORTS_CHANNEL[1:].lower():
+            sc.api_call(
+                "chat.postMessage",
+                channel=request.channel,
+                text="I'm not allowed to work here. :confused: DM me :smile:",
+                as_user=True)
             return
     except Exception:
         try:
             channel_name = stan.get_slacker().groups.info(request.channel).body["group"]["name"]
             print("Received message in group: " + channel_name)
             if channel_name.lower() == REPORTS_CHANNEL.lower():
+                sc.api_call(
+                    "chat.postMessage",
+                    channel=request.channel,
+                    text="I'm not allowed to work here. :confused: DM me :smile:",
+                    as_user=True)
                 return
         except Exception:
             pass
@@ -57,7 +72,7 @@ def callback(request):
     try:
         mention = re.search('<@(.+?)>', request.message).group(1)
     except Exception:
-        mention = ''
+        mention = ""
 
     is_mentioned = False
     if len(mention) > 0:
