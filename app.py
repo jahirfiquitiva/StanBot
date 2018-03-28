@@ -33,25 +33,6 @@ detail_mess = [
 ]
 
 
-@stan.register("channel_joined")
-def added_to_channel(request):
-    print("Bot added to channel")
-    print(str(request))
-    send_message(request,
-                 "*Hello there!* I am " + BOT_NAME + ". Thanks for having me here :blush:")
-
-
-# noinspection PyProtectedMember
-@stan.register("bot_added")
-def bot_added(request):
-    print("A bot has been added!")
-    slack_event = request._slack_event
-    if "bot" in slack_event.event:
-        if str(slack_event.event["bot"]["name"]).lower() == BOT_NAME.lower():
-            send_message(request,
-                         "*Hello there!* I am " + BOT_NAME + ". Thanks for having me here :blush:")
-
-
 @stan.register("app_mention")
 def mentions(request):
     callback(request)
@@ -75,8 +56,6 @@ def callback(request):
 
     if request.message is None or len(request.message) <= 0:
         return
-
-    print("Received request of type: " + request.type + " with message: " + request.message)
 
     message = request.message.lower()
 
