@@ -33,6 +33,16 @@ detail_mess = [
 ]
 
 
+# noinspection PyProtectedMember
+@stan.register("bot_added")
+def bot_added(request):
+    slack_event = request._slack_event
+    if "bot" in slack_event.event:
+        if str(slack_event.event["bot"]["name"]).lower() == BOT_NAME.lower():
+            send_message(request,
+                         "*Hello there!* I am " + BOT_NAME + ". Thanks for having me here :blush:")
+
+
 @stan.register("app_mention")
 def mentions(request):
     callback(request)
@@ -187,6 +197,15 @@ def send_dm_message(request):
         "chat.postMessage",
         channel=request.channel,
         text="I'm not allowed to work here. :confused: Please DM me :grinning:",
+        as_user=True)
+
+
+def send_message(request, message, mrk=False):
+    sc.api_call(
+        "chat.postMessage",
+        channel=request.channel,
+        text=message,
+        mrdwn=mrk,
         as_user=True)
 
 
