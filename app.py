@@ -53,6 +53,9 @@ def callback(request):
         if name == BOT_NAME or real_name == BOT_NAME:
             is_mentioned = True
 
+    if request.message is None or len(request.message) <= 0:
+        return
+
     message = request.message.lower()
 
     if message == BOT_NAME + " stop" or (is_mentioned and "stop" in message):
@@ -117,10 +120,6 @@ def callback(request):
                     text="Stan does not seem to be active yet, or someone else is doing a report.",
                     attachments=extra,
                     as_user=True)
-        elif message == BOT_NAME + " min" or (is_mentioned and "min" in message):
-            start_stan(True, request.channel)
-        elif message == BOT_NAME + " full" or (is_mentioned and "full" in message):
-            start_stan(False, request.channel)
         elif message.startswith(BOT_NAME + " ") or message.startswith(
                 "@" + BOT_NAME + " ") or is_mentioned:
             try:
@@ -155,6 +154,12 @@ def callback(request):
                         return
                 except Exception:
                     pass
+
+        if message == (BOT_NAME + " min") or (is_mentioned and "min" in message):
+            start_stan(True, request.channel)
+        elif message == (BOT_NAME + " full") or (is_mentioned and "full" in message):
+            start_stan(False, request.channel)
+        else:
             button = [{
                 "text": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
                 "fallback": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
