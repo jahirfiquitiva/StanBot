@@ -36,6 +36,7 @@ detail_mess = [
 # noinspection PyProtectedMember
 @stan.register("bot_added")
 def bot_added(request):
+    print("A bot has been added!")
     slack_event = request._slack_event
     if "bot" in slack_event.event:
         if str(slack_event.event["bot"]["name"]).lower() == BOT_NAME.lower():
@@ -66,6 +67,8 @@ def callback(request):
 
     if request.message is None or len(request.message) <= 0:
         return
+
+    print("Received message: " + request.message)
 
     message = request.message.lower()
 
