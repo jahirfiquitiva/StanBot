@@ -33,6 +33,13 @@ detail_mess = [
 ]
 
 
+@stan.register("channel_joined")
+def added_to_channel(request):
+    print("Bot added to channel")
+    send_message(request,
+                 "*Hello there!* I am " + BOT_NAME + ". Thanks for having me here :blush:")
+
+
 # noinspection PyProtectedMember
 @stan.register("bot_added")
 def bot_added(request):
@@ -68,7 +75,7 @@ def callback(request):
     if request.message is None or len(request.message) <= 0:
         return
 
-    print("Received message: " + request.message)
+    print("Received request of type: " + request.type + " with message: " + request.message)
 
     message = request.message.lower()
 
