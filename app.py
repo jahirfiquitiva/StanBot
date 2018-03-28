@@ -50,6 +50,7 @@ def callback(request):
         body = stan.get_slacker().users.info(mention).body["user"]
         name = body["name"]
         real_name = body["real_name"]
+        print("Bot name: " + name + " - Bot real name: " + real_name)
         if name == BOT_NAME or real_name == BOT_NAME:
             is_mentioned = True
 
