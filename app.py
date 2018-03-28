@@ -36,6 +36,7 @@ detail_mess = [
 @stan.register("channel_joined")
 def added_to_channel(request):
     print("Bot added to channel")
+    print(str(request))
     send_message(request,
                  "*Hello there!* I am " + BOT_NAME + ". Thanks for having me here :blush:")
 
@@ -167,6 +168,9 @@ def callback(request):
                 start_stan(True, request.channel)
             elif message == (BOT_NAME + " full") or (is_mentioned and "full" in message):
                 start_stan(False, request.channel)
+            elif ("has joined the channel" in message) and is_mentioned:
+                send_message(request,
+                             "*Hello there!* I am " + BOT_NAME + ". Thanks for having me here :blush:")
             else:
                 button = [{
                     "text": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
