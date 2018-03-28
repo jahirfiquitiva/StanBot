@@ -46,6 +46,7 @@ def callback(request):
     except Exception:
         mention = ""
 
+    name = BOT_NAME
     is_mentioned = False
     if len(mention) > 0:
         body = stan.get_slacker().users.info(mention).body["user"]
@@ -149,7 +150,7 @@ def callback(request):
                 start_stan(False, request.channel)
             elif ("has joined the channel" in message) and is_mentioned:
                 send_message(request,
-                             "*Hello there!* I am " + BOT_NAME + ". Thanks for having me here :blush:")
+                             "*Hello there!* I am " + name + ". Thanks for having me here :blush:")
             else:
                 button = [{
                     "text": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
