@@ -122,8 +122,7 @@ def callback(request):
                     text="Stan does not seem to be active yet, or someone else is doing a report.",
                     attachments=extra,
                     as_user=True)
-        elif message.startswith(BOT_NAME + " ") or message.startswith(
-                "@" + BOT_NAME + " ") or is_mentioned:
+        elif message.startswith(BOT_NAME) or message.startswith("@" + BOT_NAME) or is_mentioned:
             try:
                 channel_name = stan.get_slacker().channels.info(request.channel).body["channel"][
                     "name"]
