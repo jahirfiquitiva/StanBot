@@ -40,6 +40,7 @@ def mentions(request):
 
 @stan.register("message")
 def callback(request):
+    print("Config:\nBot name: " + BOT_NAME + "\nReports channel: " + REPORTS_CHANNEL)
     try:
         mention = re.search('<@(.+?)>', request.message).group(1)
     except Exception:
