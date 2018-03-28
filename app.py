@@ -157,32 +157,32 @@ def callback(request):
                 except Exception:
                     pass
 
-        if message == (BOT_NAME + " min") or (is_mentioned and "min" in message):
-            start_stan(True, request.channel)
-        elif message == (BOT_NAME + " full") or (is_mentioned and "full" in message):
-            start_stan(False, request.channel)
-        else:
-            button = [{
-                "text": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
-                "fallback": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
-                "mrkdwn": True,
-                "color": "#3AA3E3",
-                "actions": [
-                    {
-                        "type": "button",
-                        "text": "Report on GitHub",
-                        "url": BOT_REPO_URL + "/issues/new",
-                        "style": "danger"
-                    }
-                ]
-            }]
-            sc.api_call(
-                "chat.postMessage",
-                channel=request.channel,
-                text="Sorry, I'm not that smart yet :disappointed:.",
-                attachments=button,
-                mrkdwn=True,
-                as_user=True)
+            if message == (BOT_NAME + " min") or (is_mentioned and "min" in message):
+                start_stan(True, request.channel)
+            elif message == (BOT_NAME + " full") or (is_mentioned and "full" in message):
+                start_stan(False, request.channel)
+            else:
+                button = [{
+                    "text": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
+                    "fallback": "Please try using `" + BOT_NAME + " min` or `" + BOT_NAME + " full`",
+                    "mrkdwn": True,
+                    "color": "#3AA3E3",
+                    "actions": [
+                        {
+                            "type": "button",
+                            "text": "Report on GitHub",
+                            "url": BOT_REPO_URL + "/issues/new",
+                            "style": "danger"
+                        }
+                    ]
+                }]
+                sc.api_call(
+                    "chat.postMessage",
+                    channel=request.channel,
+                    text="Sorry, I'm not that smart yet :disappointed:.",
+                    attachments=button,
+                    mrkdwn=True,
+                    as_user=True)
 
 
 def start_stan(simple, chan):
