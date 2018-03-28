@@ -40,7 +40,7 @@ def mentions(request):
 
 @stan.register("message")
 def callback(request):
-    print("Config:\nBot name: " + BOT_NAME + "\nReports channel: " + REPORTS_CHANNEL)
+    # noinspection PyBroadException
     try:
         mention = re.search('<@(.+?)>', request.message).group(1)
     except Exception:
@@ -51,7 +51,6 @@ def callback(request):
         body = stan.get_slacker().users.info(mention).body["user"]
         name = body["name"]
         real_name = body["real_name"]
-        print("Bot name: " + name + " - Bot real name: " + real_name)
         if name == BOT_NAME or real_name == BOT_NAME:
             is_mentioned = True
 
@@ -123,35 +122,23 @@ def callback(request):
                     attachments=extra,
                     as_user=True)
         elif message.startswith(BOT_NAME) or message.startswith("@" + BOT_NAME) or is_mentioned:
+            # noinspection PyBroadException
             try:
                 channel_name = stan.get_slacker().channels.info(request.channel).body["channel"][
                     "name"]
-                print("Received message in channel: " + channel_name)
                 if channel_name.lower() == REPORTS_CHANNEL.lower():
-                    sc.api_call(
-                        "chat.postMessage",
-                        channel=request.channel,
-                        text="I'm not allowed to work here. :confused: DM me :smile:",
-                        as_user=True)
+                    send_dm_message(request)
                     return
                 elif channel_name.lower() == REPORTS_CHANNEL[1:].lower():
-                    sc.api_call(
-                        "chat.postMessage",
-                        channel=request.channel,
-                        text="I'm not allowed to work here. :confused: DM me :smile:",
-                        as_user=True)
+                    send_dm_message(request)
                     return
             except Exception:
+                # noinspection PyBroadException
                 try:
                     channel_name = stan.get_slacker().groups.info(request.channel).body["group"][
                         "name"]
-                    print("Received message in group: " + channel_name)
                     if channel_name.lower() == REPORTS_CHANNEL.lower():
-                        sc.api_call(
-                            "chat.postMessage",
-                            channel=request.channel,
-                            text="I'm not allowed to work here. :confused: DM me :smile:",
-                            as_user=True)
+                        send_dm_message(request)
                         return
                 except Exception:
                     pass
@@ -195,10 +182,19 @@ def start_stan(simple, chan):
         as_user=True)
 
 
+def send_dm_message(request):
+    sc.api_call(
+        "chat.postMessage",
+        channel=request.channel,
+        text="I'm not allowed to work here. :confused: Please DM me :grinning:",
+        as_user=True)
+
+
 def main():
     stan.start()
-    print("Bot running now :D")
+    print(BOT_NAME + " is running now :D")
 
 
 if __name__ == "__main__":
     main()
+    print(BOT_NAME + " is running now :D")
